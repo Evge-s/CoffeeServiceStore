@@ -1,6 +1,6 @@
 global using CoffeeService.Shared;
 global using Microsoft.EntityFrameworkCore;
-using CoffeeService.Server.Data;
+global using CoffeeService.Server.Data;
 using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
