@@ -10,17 +10,18 @@
             _http = http;
         }
 
-        public async Task<Product> GetProductAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task GetProducts()
         {
             var result =
                 await _http.GetFromJsonAsync<ServiceResponse<List<Product>>>("api/product");
             if (result != null && result.Data != null)
                 Products = result.Data;
+        }
+
+        public async Task<ServiceResponse<Product>> GetProduct(int productId)
+        {
+            var result = await _http.GetFromJsonAsync<ServiceResponse<Product>>($"api/product/{productId}");
+            return result;
         }
     }
 }
