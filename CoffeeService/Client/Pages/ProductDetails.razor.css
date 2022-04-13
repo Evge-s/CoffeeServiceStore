@@ -2,25 +2,12 @@
     max-height: 200px;
     max-width: 200px;
     border-radius: 6px;
-    margin-bottom: 50px;
-    transition: transform .2s;
-}
-
-    .media-img:hover {
-        transform: scale(1.1);
-    }
-
-.media {
-    display: flex;
-    align-items: flex-start;
-}
-
-.media-body {
-    flex: 1;
+    margin: 0 10px 10px 10px;
 }
 
 .media-img-wrapper {
-    width: 200px;
+    max-width: 200px;
+    max-height: 200px;
     text-align: center;
 }
 

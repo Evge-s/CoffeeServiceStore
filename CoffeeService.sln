@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeService.Server", "CoffeeService\Server\CoffeeService.Server.csproj", "{138DF90F-1C97-4B94-9ACF-530E186EBB28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoffeeService.Server", "CoffeeService\Server\CoffeeService.Server.csproj", "{138DF90F-1C97-4B94-9ACF-530E186EBB28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeService.Client", "CoffeeService\Client\CoffeeService.Client.csproj", "{6B747CBD-1465-4558-823F-E1A3A3B32445}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoffeeService.Client", "CoffeeService\Client\CoffeeService.Client.csproj", "{6B747CBD-1465-4558-823F-E1A3A3B32445}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeService.Shared", "CoffeeService\Shared\CoffeeService.Shared.csproj", "{F3C97614-88FB-4F3A-841D-2CDE2F338F1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoffeeService.Shared", "CoffeeService\Shared\CoffeeService.Shared.csproj", "{F3C97614-88FB-4F3A-841D-2CDE2F338F1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
