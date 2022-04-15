@@ -15,13 +15,13 @@
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ProductVariant>()
-                .HasKey(p => new { p.ProductId, p.ProductTypeId});
+                .HasKey(p => new { p.ProductId, p.ProductTypeId });
 
             modelBuilder.Entity<ProductType>().HasData(
                 new ProductType { Id = 1, Name = "Default" },
-                new ProductType { Id = 2, Name = "Africa" },
-                new ProductType { Id = 3, Name = "Asia" },
-                new ProductType { Id = 4, Name = "Amerika" }
+                new ProductType { Id = 2, Name = "500mg" },
+                new ProductType { Id = 3, Name = "1kg" },
+                new ProductType { Id = 4, Name = "5kg" }
                 );
 
             modelBuilder.Entity<Category>().HasData(
@@ -101,6 +101,20 @@
                     ProductTypeId = 2,
                     Price = 9.99m,
                     OriginalPrice = 12.00m
+                },
+                new ProductVariant
+                {
+                    ProductId = 4,
+                    ProductTypeId = 3,
+                    Price = 17.99m,
+                    OriginalPrice = 24.00m
+                },
+                new ProductVariant
+                {
+                    ProductId = 4,
+                    ProductTypeId = 4,
+                    Price = 17.99m,
+                    OriginalPrice = 24.00m
                 }
                 );
         }
