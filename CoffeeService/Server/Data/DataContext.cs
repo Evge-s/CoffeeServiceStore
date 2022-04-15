@@ -4,6 +4,8 @@
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<ProductType> ProductTypes { get; set; }
+        public DbSet<ProductVariant> ProductVariants { get; set; }
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -12,6 +14,16 @@
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ProductVariant>()
+                .HasKey(p => new { p.ProductId, p.ProductTypeId});
+
+            modelBuilder.Entity<ProductType>().HasData(
+                new ProductType { Id = 1, Name = "Default" },
+                new ProductType { Id = 2, Name = "Africa" },
+                new ProductType { Id = 3, Name = "Asia" },
+                new ProductType { Id = 4, Name = "Amerika" }
+                );
+
             modelBuilder.Entity<Category>().HasData(
                 new Category
                 {
@@ -34,7 +46,6 @@
                 Title = "ESE Pod Compatible | Black",
                 Description = "Breville One-Touch CoffeeHouse Coffee Machine | Espresso, Cappuccino & Latte Maker | 19 Bar Italian Pump | Automatic Milk Frother",
                 ImageUrl = "https://m.media-amazon.com/images/I/81J4JXh9q3S._AC_SX679_.jpg",
-                Price = 9.99m,
                 CategoryId = 1
             },
             new Product
@@ -43,7 +54,6 @@
                 Title = "Russell Hobbs Chester Grind",
                 Description = "Coffee Machine 22000 - Black",
                 ImageUrl = "https://m.media-amazon.com/images/I/814DpiiLshL._AC_SX679_.jpg",
-                Price = 12.50m,
                 CategoryId = 1
             },
             new Product
@@ -52,7 +62,6 @@
                 Title = "De'Longhi Magnifica S",
                 Description = "Automatic Bean to Cup Coffee Machine, Espresso and Cappuccino Maker, ECAM22.110.B, Black",
                 ImageUrl = "https://m.media-amazon.com/images/I/61Gm5OKA6rL._AC_SX679_.jpg",
-                Price = 35.00m,
                 CategoryId = 1
             },
             new Product
@@ -61,10 +70,39 @@
                 Title = "Starbucks Medium Roast Ground Coffee — Pike Place Roast — 100% Arabica",
                 Description = "Pike Place Roast is well-rounded with subtle notes of cocoa and toasted nuts balancing the smooth mouthfeel",
                 ImageUrl = "https://m.media-amazon.com/images/I/71jZYgFuW+S._SX679_.jpg",
-                Price = 12.00m,
                 CategoryId = 2
             }
             );
+
+            modelBuilder.Entity<ProductVariant>().HasData(
+                new ProductVariant
+                {
+                    ProductId = 1,
+                    ProductTypeId = 1,
+                    Price = 29.99m,
+                    OriginalPrice = 42.00m
+                },
+                new ProductVariant
+                {
+                    ProductId = 2,
+                    ProductTypeId = 1,
+                    Price = 37m,
+                },
+                new ProductVariant
+                {
+                    ProductId = 3,
+                    ProductTypeId = 1,
+                    Price = 34.99m,
+                    OriginalPrice = 42.00m
+                },
+                new ProductVariant
+                {
+                    ProductId = 4,
+                    ProductTypeId = 2,
+                    Price = 9.99m,
+                    OriginalPrice = 12.00m
+                }
+                );
         }
     }
 }
