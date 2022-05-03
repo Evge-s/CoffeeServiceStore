@@ -7,5 +7,6 @@
         Task<ServiceResponse<List<Product>>> GetProductsByCategory(string categoryUrl);
         Task<ServiceResponse<List<Product>>> SearchProducts(string serachText);
         Task<ServiceResponse<List<string>>> GetProductSearchSuggestions(string serachText);
+        Task<ServiceResponse<List<Product>>> GetFeaturedProducts();
     }
 }

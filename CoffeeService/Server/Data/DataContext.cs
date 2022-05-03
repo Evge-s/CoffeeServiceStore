@@ -46,7 +46,8 @@
                 Title = "ESE Pod Compatible | Black",
                 Description = "Breville One-Touch CoffeeHouse Coffee Machine | Espresso, Cappuccino & Latte Maker | 19 Bar Italian Pump | Automatic Milk Frother",
                 ImageUrl = "https://m.media-amazon.com/images/I/81J4JXh9q3S._AC_SX679_.jpg",
-                CategoryId = 1
+                CategoryId = 1,
+                Featured = true
             },
             new Product
             {
