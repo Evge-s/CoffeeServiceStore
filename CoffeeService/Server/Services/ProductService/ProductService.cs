@@ -99,7 +99,7 @@
             return new ServiceResponse<List<string>> { Data = result };
         }
 
-        public async Task<ServiceResponse<ProductSearchResult>> SearchProducts(string serachText, int page)
+        public async Task<ServiceResponse<ProductSearchResultResponse>> SearchProducts(string serachText, int page)
         {
             var pageResults = 2f;
             var pageCount = Math.Ceiling((await FindProductsBySearchText(serachText)).Count / pageResults);
@@ -112,9 +112,9 @@
                                 .Take((int)pageResults)
                                 .ToListAsync();
 
-            var response = new ServiceResponse<ProductSearchResult>
+            var response = new ServiceResponse<ProductSearchResultResponse>
             {
-                Data = new ProductSearchResult
+                Data = new ProductSearchResultResponse
                 {
                     Products = products,
                     CurentPage = page,

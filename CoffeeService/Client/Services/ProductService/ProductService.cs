@@ -35,7 +35,7 @@
             PageCount = 0;
 
             if (Products.Count == 0)
-                Message = "No Products fount";
+                Message = "No Products found";
 
             ProductsChanged.Invoke();
         }
@@ -51,7 +51,7 @@
         {
             LastSearchText = searchText;
             var result = await _http
-                .GetFromJsonAsync<ServiceResponse<ProductSearchResult>>($"api/product/search/{searchText}/{page}");
+                .GetFromJsonAsync<ServiceResponse<ProductSearchResultResponse>>($"api/product/search/{searchText}/{page}");
             if (result != null && result.Data != null)
             {
 

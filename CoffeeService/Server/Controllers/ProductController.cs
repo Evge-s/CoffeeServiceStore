@@ -35,7 +35,7 @@ namespace CoffeeService.Server.Controllers
         }
 
         [HttpGet("search/{searchText}/{page}")]
-        public async Task<ActionResult<ServiceResponse<ProductSearchResult>>> SearchProducts(string searchText, int page = 1)
+        public async Task<ActionResult<ServiceResponse<ProductSearchResultResponse>>> SearchProducts(string searchText, int page = 1)
         {
             var result = await _productService.SearchProducts(searchText, page);
             return Ok(result);
