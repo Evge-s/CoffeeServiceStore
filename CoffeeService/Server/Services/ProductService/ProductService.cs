@@ -99,11 +99,27 @@
             return new ServiceResponse<List<string>> { Data = result };
         }
 
-        public async Task<ServiceResponse<List<Product>>> SearchProducts(string serachText)
+        public async Task<ServiceResponse<ProductSearchResult>> SearchProducts(string serachText, int page)
         {
-            var response = new ServiceResponse<List<Product>>
+            var pageResults = 2f;
+            var pageCount = Math.Ceiling((await FindProductsBySearchText(serachText)).Count / pageResults);
+            var products = await _context.Products
+                                .Where(p => p.Title.ToLower().Contains(serachText.ToLower())
+                                ||
+                                p.Description.ToLower().Contains(serachText.ToLower()))
+                                .Include(p => p.Variants)
+                                .Skip((page - 1) * (int)pageResults)
+                                .Take((int)pageResults)
+                                .ToListAsync();
+
+            var response = new ServiceResponse<ProductSearchResult>
             {
-                Data = await FindProductsBySearchText(serachText)
+                Data = new ProductSearchResult
+                {
+                    Products = products,
+                    CurentPage = page,
+                    Pages = (int)pageCount
+                }
             };
 
             return response;
