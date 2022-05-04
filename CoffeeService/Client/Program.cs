@@ -1,4 +1,5 @@
 global using CoffeeService.Shared;
+global using CoffeeService.Shared.User;
 global using System.Net.Http.Json;
 global using CoffeeService.Client.Services.ProductService;
 global using CoffeeService.Client.Services.CategoryService;

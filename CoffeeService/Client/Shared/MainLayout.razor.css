@@ -46,7 +46,7 @@ main {
     }
 
     .top-row ::deep a, .top-row ::deep .btn-link {
-        margin-left: 0;
+        margin-left: .5em;
     }
 }
 
