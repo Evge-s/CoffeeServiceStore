@@ -22,7 +22,17 @@ namespace CoffeeService.Client.Services.CartService
             {
                 cart = new List<CartItem>();
             }
-            cart.Add(cartItem);
+
+            var sameItem = cart.Find(p => p.ProductId == cartItem.ProductId
+                && p.ProductTypeId == cartItem.ProductTypeId);
+            if (sameItem == null)
+            {
+                cart.Add(cartItem);
+            }
+            else
+            {
+                sameItem.Quantity += cartItem.Quantity;
+            }
 
             await _localStorage.SetItemAsync("cart", cart);
             OnChange.Invoke();
@@ -48,7 +58,7 @@ namespace CoffeeService.Client.Services.CartService
             return cartProducts.Data;
         }
 
-        public async Task RemoveProductFromCart(int productId, int ProductTypeId)
+        public async Task RemoveProductFromCart(int productId, int productTypeId)
         {
             var cart = await _localStorage.GetItemAsync<List<CartItem>>("cart");
             if (cart == null)
@@ -57,12 +67,29 @@ namespace CoffeeService.Client.Services.CartService
             }
 
             var cartItem = cart.Find(p => p.ProductId == productId
-             && p.ProductTypeId == ProductTypeId);
+             && p.ProductTypeId == productTypeId);
             if (cartItem != null)
             {
                 cart.Remove(cartItem);
                 await _localStorage.SetItemAsync("cart", cart);
                 OnChange.Invoke();
+            }
+        }
+
+        public async Task UpdateQuntity(CartProductResponse product)
+        {
+            var cart = await _localStorage.GetItemAsync<List<CartItem>>("cart");
+            if (cart == null)
+            {
+                return;
+            }
+
+            var cartItem = cart.Find(p => p.ProductId == product.ProductId
+             && p.ProductTypeId == product.ProductTypeId);
+            if (cartItem != null)
+            {
+                cartItem.Quantity = product.Quantity;
+                await _localStorage.SetItemAsync("cart", cart);
             }
         }
     }
