@@ -23,3 +23,15 @@
     font-weight: 600;
     text-align: center;
 }
+
+.btn-delete {
+    background: none;
+    border: none;
+    padding: 0px;
+    color: red;
+    font-size: 12px;
+}
+
+    .btn-delete:hover {
+        text-decoration: underline;
+    }
