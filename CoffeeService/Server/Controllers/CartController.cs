@@ -1,6 +1,4 @@
-﻿using CoffeeService.Server.Services.CartService;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace CoffeeService.Server.Controllers
 {
