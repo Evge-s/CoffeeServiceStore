@@ -10,13 +10,36 @@ namespace CoffeeService.Server.Services.AuthService
         {
             _context = context;
         }
+
+        public async Task<ServiceResponse<string>> Login(string email, string password)
+        {
+            var response = new ServiceResponse<string>();
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.ToLower().Equals(email.ToLower()));
+            if (user == null)
+            {
+                response.Success = false;
+                response.Message = "User not found";
+            }
+            else if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+            {
+                response.Success = false;
+                response.Message = "Wrond password";
+            }
+            else
+            {
+                response.Data = "token";
+            }
+
+            return response;
+        }
+
         public async Task<ServiceResponse<int>> Register(User user, string password)
         {
-            if(await UserExist(user.Email))
+            if (await UserExist(user.Email))
             {
-                return new ServiceResponse<int> 
-                { 
-                    Success = false, 
+                return new ServiceResponse<int>
+                {
+                    Success = false,
                     Message = "User already exists"
                 };
             }
@@ -44,10 +67,19 @@ namespace CoffeeService.Server.Services.AuthService
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
-            using(var hmac = new HMACSHA512())
+            using (var hmac = new HMACSHA512())
             {
                 passwordSalt = hmac.Key;
                 passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
+        }
+
+        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        {
+            using (var hmac = new HMACSHA512(passwordSalt))
+            {
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                return computedHash.SequenceEqual(passwordHash);
             }
         }
     }
