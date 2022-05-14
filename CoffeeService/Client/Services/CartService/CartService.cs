@@ -20,13 +20,13 @@ namespace CoffeeService.Client.Services.CartService
 
         public async Task AddToCart(CartItem cartItem)
         {
-            if ((await _authStateProvider.GetAuthenticationStateAsync()).User.Identity.IsAuthenticated) // PASS
+            if (await IsUserAuthenticated()) // PASS
             {
                 Console.WriteLine("user is auth");
             }
             else
             {
-                Console.WriteLine("user is NIT auth");
+                Console.WriteLine("user is NOT auth");
             }
 
             var cart = await _localStorage.GetItemAsync<List<CartItem>>("cart");
@@ -47,11 +47,29 @@ namespace CoffeeService.Client.Services.CartService
             }
 
             await _localStorage.SetItemAsync("cart", cart);
+            await GetCartItemsCount();
+        }
+        public async Task GetCartItemsCount()
+        {
+            if (await IsUserAuthenticated())
+            {
+                var result = await _httpClient.GetFromJsonAsync<ServiceResponse<int>>("api/cart/count");
+                var count = result.Data;
+
+                await _localStorage.SetItemAsync<int>("cartItemsCount", count);
+            }
+            else
+            {
+                var cart = await _localStorage.GetItemAsync<List<CartItem>>("cart");
+                await _localStorage.SetItemAsync<int>("cartItemsCount", cart != null ? cart.Count : 0);
+            }
+
             OnChange.Invoke();
         }
 
         public async Task<List<CartItem>> GetCartItems()
         {
+            await GetCartItemsCount();
             var cart = await _localStorage.GetItemAsync<List<CartItem>>("cart");
             if (cart == null)
             {
@@ -84,7 +102,7 @@ namespace CoffeeService.Client.Services.CartService
             {
                 cart.Remove(cartItem);
                 await _localStorage.SetItemAsync("cart", cart);
-                OnChange.Invoke();
+                await GetCartItemsCount();
             }
         }
 
@@ -119,6 +137,11 @@ namespace CoffeeService.Client.Services.CartService
             {
                 await _localStorage.RemoveItemAsync("cart");
             }
+        }
+
+        private async Task<bool> IsUserAuthenticated()
+        {
+            return (await _authStateProvider.GetAuthenticationStateAsync()).User.Identity.IsAuthenticated;
         }
     }
 }
