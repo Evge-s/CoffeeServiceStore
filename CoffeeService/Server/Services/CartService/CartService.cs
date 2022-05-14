@@ -65,15 +65,19 @@ namespace CoffeeService.Server.Services.CartService
             return result;
         }
 
+        public async Task<ServiceResponse<List<CartProductResponse>>> GetDbCartProducts()
+        {
+            return await GetCartProducts(await _context.CartItems
+                .Where(i => i.UserId == GetUserId()).ToListAsync());
+        }
+
         public async Task<ServiceResponse<List<CartProductResponse>>> StoreCartItems(List<CartItem> cartItems)
         {
             cartItems.ForEach(cartItem => cartItem.UserId = GetUserId());
             _context.CartItems.AddRange(cartItems);
             await _context.SaveChangesAsync();
 
-            return await GetCartProducts(
-                await _context.CartItems
-                .Where(item => item.UserId == GetUserId()).ToListAsync());
+            return await GetDbCartProducts();
         }
 
         private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
