@@ -28,6 +28,13 @@ namespace CoffeeService.Server.Controllers
             return Ok(result);
         }
 
+        [HttpPost("add")]
+        public async Task<ActionResult<ServiceResponse<bool>>> AddToCart(CartItem cartItem)
+        {
+            var result = await _cartService.AddToCart(cartItem);
+            return Ok(result);
+        }
+
         [HttpGet("count")]
         public async Task<ActionResult<ServiceResponse<int>>> GetCartItemsCount()
         {

@@ -20,35 +20,34 @@ namespace CoffeeService.Client.Services.CartService
 
         public async Task AddToCart(CartItem cartItem)
         {
-            if (await IsUserAuthenticated()) // PASS
+            if (await IsUserAuthenticated())
             {
-                Console.WriteLine("user is auth");
+                await _httpClient.PostAsJsonAsync("api/cart/add", cartItem);
             }
             else
             {
-                Console.WriteLine("user is NOT auth");
-            }
+                var cart = await _localStorage.GetItemAsync<List<CartItem>>("cart");
+                if (cart == null)
+                {
+                    cart = new List<CartItem>();
+                }
 
-            var cart = await _localStorage.GetItemAsync<List<CartItem>>("cart");
-            if (cart == null)
-            {
-                cart = new List<CartItem>();
-            }
+                var sameItem = cart.Find(p => p.ProductId == cartItem.ProductId
+                    && p.ProductTypeId == cartItem.ProductTypeId);
+                if (sameItem == null)
+                {
+                    cart.Add(cartItem);
+                }
+                else
+                {
+                    sameItem.Quantity += cartItem.Quantity;
+                }
 
-            var sameItem = cart.Find(p => p.ProductId == cartItem.ProductId
-                && p.ProductTypeId == cartItem.ProductTypeId);
-            if (sameItem == null)
-            {
-                cart.Add(cartItem);
+                await _localStorage.SetItemAsync("cart", cart);
             }
-            else
-            {
-                sameItem.Quantity += cartItem.Quantity;
-            }
-
-            await _localStorage.SetItemAsync("cart", cart);
             await GetCartItemsCount();
         }
+
         public async Task GetCartItemsCount()
         {
             if (await IsUserAuthenticated())

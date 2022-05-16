@@ -5,7 +5,7 @@ namespace CoffeeService.Server.Services.CartService
     public class CartService : ICartService
     {
         private readonly DataContext _context;
-        private readonly IHttpContextAccessor _httpContextAccessor;      
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public CartService(DataContext context, IHttpContextAccessor httpContextAccessor)
         {
@@ -78,6 +78,29 @@ namespace CoffeeService.Server.Services.CartService
             await _context.SaveChangesAsync();
 
             return await GetDbCartProducts();
+        }
+
+        public async Task<ServiceResponse<bool>> AddToCart(CartItem cartItem)
+        {
+            cartItem.UserId = GetUserId();
+
+            var sameItem = await _context.CartItems
+                .FirstOrDefaultAsync(i => i.ProductId == cartItem.ProductId
+                && i.ProductTypeId == cartItem.ProductTypeId
+                && i.UserId == cartItem.UserId);
+
+            if (sameItem == null)
+            {
+                _context.CartItems.Add(cartItem);
+            }
+            else
+            {
+                sameItem.Quantity += cartItem.Quantity;
+            }
+
+            await _context.SaveChangesAsync();
+
+            return new ServiceResponse<bool> { Data = true };
         }
 
         private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
