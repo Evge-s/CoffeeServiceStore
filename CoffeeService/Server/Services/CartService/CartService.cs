@@ -118,11 +118,31 @@ namespace CoffeeService.Server.Services.CartService
                     Success = false
                 };
             }
-            else
+
+            dbCartItem.Quantity = cartItem.Quantity;
+            await _context.SaveChangesAsync();
+
+            return new ServiceResponse<bool> { Data = true };
+        }
+        public async Task<ServiceResponse<bool>> RemoveItemFromCart(int productId, int productTypeId)
+        {
+            var dbCartItem = await _context.CartItems
+                .FirstOrDefaultAsync(i => i.ProductId == productId
+                && i.ProductTypeId == productTypeId
+                && i.UserId == GetUserId());
+
+            if (dbCartItem == null)
             {
-                dbCartItem.Quantity = cartItem.Quantity;
-                await _context.SaveChangesAsync();
+                return new ServiceResponse<bool>
+                {
+                    Data = false,
+                    Message = "Cart item does not exist",
+                    Success = false
+                };
             }
+
+            _context.CartItems.Remove(dbCartItem);
+            await _context.SaveChangesAsync();
 
             return new ServiceResponse<bool> { Data = true };
         }
