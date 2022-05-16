@@ -102,7 +102,32 @@ namespace CoffeeService.Server.Services.CartService
 
             return new ServiceResponse<bool> { Data = true };
         }
+        public async Task<ServiceResponse<bool>> UpdateQuantity(CartItem cartItem)
+        {
+            var dbCartItem = await _context.CartItems
+                .FirstOrDefaultAsync(i => i.ProductId == cartItem.ProductId
+                && i.ProductTypeId == cartItem.ProductTypeId
+                && i.UserId == GetUserId());
+
+            if (dbCartItem == null)
+            {
+                return new ServiceResponse<bool>
+                {
+                    Data = false,
+                    Message = "Cart item does not exist",
+                    Success = false
+                };
+            }
+            else
+            {
+                dbCartItem.Quantity = cartItem.Quantity;
+                await _context.SaveChangesAsync();
+            }
+
+            return new ServiceResponse<bool> { Data = true };
+        }
 
         private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+
     }
 }
