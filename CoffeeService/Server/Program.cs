@@ -1,11 +1,13 @@
 global using CoffeeService.Shared;
 global using CoffeeService.Shared.User;
+global using CoffeeService.Shared.Order;
 global using Microsoft.EntityFrameworkCore;
 global using CoffeeService.Server.Data;
 global using CoffeeService.Server.Services.ProductService;
 global using CoffeeService.Server.Services.CategoryService;
 global using CoffeeService.Server.Services.AuthService;
 global using CoffeeService.Server.Services.CartService;
+global using CoffeeService.Server.Services.OrderService;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -29,6 +31,8 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
