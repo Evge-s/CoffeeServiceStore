@@ -6,15 +6,15 @@ namespace CoffeeService.Server.Services.OrderService
     {
         private readonly DataContext _context;
         private readonly ICartService _cartService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IAuthService _authService;
 
         public OrderService(DataContext context,
             ICartService cartService,
-            IHttpContextAccessor httpContextAccessor)
+            IAuthService authService)
         {
             _context = context;
             _cartService = cartService;
-            _httpContextAccessor = httpContextAccessor;
+            _authService = authService;
         }
 
 
@@ -35,7 +35,7 @@ namespace CoffeeService.Server.Services.OrderService
 
             var order = new Order
             {
-                UserId = GetUserId(),
+                UserId = _authService.GetUserId(),
                 CreatedDate = DateTime.Now,
                 TotalPrice = totalPrice,
                 orderItems = orderItems
@@ -44,13 +44,11 @@ namespace CoffeeService.Server.Services.OrderService
             _context.Orders.Add(order);
 
             _context.CartItems.RemoveRange(_context.CartItems
-                .Where(i => i.UserId == GetUserId()));
+                .Where(i => i.UserId == _authService.GetUserId()));
 
             await _context.SaveChangesAsync();
 
             return new ServiceResponse<bool> { Data = true };
         }
-
-        private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
     }
 }
