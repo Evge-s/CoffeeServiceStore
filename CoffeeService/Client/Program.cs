@@ -1,5 +1,6 @@
 global using CoffeeService.Shared;
 global using CoffeeService.Shared.User;
+global using CoffeeService.Shared.Order;
 global using CoffeeService.Client.Services.AuthService;
 global using CoffeeService.Client.Services.CartService;
 global using CoffeeService.Client.Services.CategoryService;
