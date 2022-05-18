@@ -17,6 +17,12 @@ namespace CoffeeService.Client.Services.OrderService
             _navigationManager = navigationManager;
         }
 
+        public async Task<OrderDetailsResponse> GetOrderDetails(int orderId)
+        {
+            var result = await _http.GetFromJsonAsync<ServiceResponse<OrderDetailsResponse>>($"api/order/{orderId}");
+            return result.Data;
+        }
+
         public async Task<List<OrderOverviewResponse>> GetOrders()
         {
             var result = await _http.GetFromJsonAsync<ServiceResponse<List<OrderOverviewResponse>>>("api/order");
