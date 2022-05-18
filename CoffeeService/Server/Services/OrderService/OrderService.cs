@@ -1,6 +1,4 @@
-﻿using System.Security.Claims;
-
-namespace CoffeeService.Server.Services.OrderService
+﻿namespace CoffeeService.Server.Services.OrderService
 {
     public class OrderService : IOrderService
     {
@@ -17,6 +15,33 @@ namespace CoffeeService.Server.Services.OrderService
             _authService = authService;
         }
 
+        public async Task<ServiceResponse<List<OrderOverviewResponse>>> GetOrders()
+        {
+            var response = new ServiceResponse<List<OrderOverviewResponse>>();
+            var orders = await _context.Orders
+                .Include(o => o.orderItems)
+                .ThenInclude(oi => oi.Product)
+                .Where(o => o.UserId == _authService.GetUserId())
+                .OrderByDescending(o => o.CreatedDate)
+                .ToListAsync();
+
+            var orderResponse = new List<OrderOverviewResponse>();
+            orders.ForEach(o => orderResponse.Add(new OrderOverviewResponse
+            {
+                Id = o.Id,
+                CreatedDate = o.CreatedDate,
+                TotalPrice = o.TotalPrice,
+                Product = o.orderItems.Count > 1 ?
+                    $"{o.orderItems.First().Product.Title} and " +
+                    $"{o.orderItems.Count - 1} more..." :
+                    o.orderItems.First().Product.Title,
+                ProductImageUrl = o.orderItems.First().Product.ImageUrl
+            }));
+
+            response.Data = orderResponse;
+
+            return response;
+        }
 
         public async Task<ServiceResponse<bool>> PlaceOrder()
         {

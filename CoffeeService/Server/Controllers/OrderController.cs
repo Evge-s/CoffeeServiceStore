@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace CoffeeService.Server.Controllers
 {
@@ -18,6 +17,13 @@ namespace CoffeeService.Server.Controllers
         public async Task<ActionResult<ServiceResponse<bool>>> PlaceOrder()
         {
             var result = await _orderService.PlaceOrder();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<ServiceResponse<List<OrderOverviewResponse>>>> GetOrders()
+        {
+            var result = await _orderService.GetOrders();
             return Ok(result);
         }
     }
