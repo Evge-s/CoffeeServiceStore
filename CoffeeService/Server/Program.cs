@@ -11,6 +11,7 @@ global using CoffeeService.Server.Services.OrderService;
 global using CoffeeService.Server.Services.PaymentService.Mono;
 global using CoffeeService.Shared.Payment.MonoPay;
 global using CoffeeService.Shared.DeliveryAddress;
+global using CoffeeService.Server.Services.AddressService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -35,6 +36,7 @@ builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IMonoService, MonoService>();
+builder.Services.AddScoped<IAddressService, AddressService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
