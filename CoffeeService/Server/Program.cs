@@ -10,6 +10,7 @@ global using CoffeeService.Server.Services.CartService;
 global using CoffeeService.Server.Services.OrderService;
 global using CoffeeService.Server.Services.PaymentService.Mono;
 global using CoffeeService.Shared.Payment.MonoPay;
+global using CoffeeService.Shared.DeliveryAddress;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
