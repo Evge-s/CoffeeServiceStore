@@ -1,8 +1,8 @@
 ﻿using CoffeeService.Shared.Payment.MonoPay.Models;
 
-namespace CoffeeService.Server.Services.PaymentService
+namespace CoffeeService.Server.Services.PaymentService.Mono
 {
-    public class PaymentService : IPaymentService
+    public class MonoService : IMonoService
     {
         private readonly ICartService _cartService;
         private readonly IConfiguration _iConfig;
@@ -10,7 +10,7 @@ namespace CoffeeService.Server.Services.PaymentService
         private const string TokenHeader = "X-Token";
         private readonly string ApiKey;
 
-        public PaymentService(ICartService cartService,
+        public MonoService(ICartService cartService,
             IConfiguration iConfig)
         {
             _cartService = cartService;
@@ -19,7 +19,7 @@ namespace CoffeeService.Server.Services.PaymentService
         }
 
         public async Task<HttpResponseMessage> CreateChecoutSession()
-        {            
+        {
             var products = (await _cartService.GetDbCartProducts()).Data;
             decimal orderPrice = 0;
             var basketOrderResult = new List<BasketItem>();

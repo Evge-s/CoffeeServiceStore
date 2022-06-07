@@ -39,7 +39,7 @@ else
             Total (@cartProducts.Count): $@cartProducts.Sum(product => @product.Price * product.Quantity)
         </div>
     </div>
-    <button @onclick="PlaceOrder" class="btn alert-success float-end mt-1">Checkout</button>
+    <button @onclick="MonoPlaceOrder" class="btn alert-success float-end mt-1">Monobank</button>
 }
 
 @code {
@@ -75,9 +75,9 @@ else
         await CartService.UpdateQuntity(product);
     }
 
-    private async Task PlaceOrder()
+    private async Task MonoPlaceOrder()
     {
-        string url = await OrderService.PlaceOrder();
+        string url = await OrderService.MonoPlaceOrder();
         navigationManager.NavigateTo(url);
     }
 }

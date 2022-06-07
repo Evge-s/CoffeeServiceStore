@@ -8,17 +8,17 @@ namespace CoffeeService.Server.Controllers
     [ApiController]
     public class PaymentController : ControllerBase
     {
-        private readonly IPaymentService _paymentService;
+        private readonly IMonoService _monoPaymentService;
 
-        public PaymentController(IPaymentService paymentService)
+        public PaymentController(IMonoService monoPaymentService)
         {
-            _paymentService = paymentService;
+            _monoPaymentService = monoPaymentService;
         }
 
-        [HttpPost("checkout"), Authorize]
-        public async Task<ActionResult<string>> CreateCheckoutSession()
+        [HttpPost("monocheckout"), Authorize]
+        public async Task<ActionResult<string>> CreateCheckoutMono()
         {
-            var session = await _paymentService.CreateChecoutSession();
+            var session = await _monoPaymentService.CreateChecoutSession();
             var responseContent = await session.Content.ReadAsStringAsync();
 
             if (session != null && session.IsSuccessStatusCode)

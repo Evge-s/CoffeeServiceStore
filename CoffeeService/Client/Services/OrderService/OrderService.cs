@@ -29,11 +29,11 @@ namespace CoffeeService.Client.Services.OrderService
             return result.Data;
         }
 
-        public async Task<string> PlaceOrder()
+        public async Task<string> MonoPlaceOrder()
         {
             if (await IsUserAuthenticated())
             {
-                var result = await _http.PostAsync("api/payment/checkout", null);
+                var result = await _http.PostAsync("api/payment/monocheckout", null);
                 var url = await result.Content.ReadAsStringAsync();
                 return url;
             }

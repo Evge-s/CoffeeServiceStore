@@ -8,9 +8,8 @@ global using CoffeeService.Server.Services.CategoryService;
 global using CoffeeService.Server.Services.AuthService;
 global using CoffeeService.Server.Services.CartService;
 global using CoffeeService.Server.Services.OrderService;
-global using CoffeeService.Server.Services.PaymentService;
+global using CoffeeService.Server.Services.PaymentService.Mono;
 global using CoffeeService.Shared.Payment.MonoPay;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -34,7 +33,7 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
-builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IMonoService, MonoService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
