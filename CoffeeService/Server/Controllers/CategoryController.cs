@@ -28,7 +28,7 @@ namespace CoffeeService.Server.Controllers
             return Ok(result);
         }
 
-        [HttpDelete("admin"), Authorize(Roles = "Admin")]
+        [HttpDelete("admin/{id}"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<ServiceResponse<List<Category>>>> DeleteCategory(int id)
         {
             var result = await _categoryService.DeleteCategories(id);
