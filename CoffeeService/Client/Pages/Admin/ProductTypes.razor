@@ -1,0 +1,50 @@
+﻿@page "/admin/product-types"
+@inject IProductTypeService ProductTypeService
+
+<h3>ProductTypes</h3>
+
+@foreach (var productType in ProductTypeService.ProductTypes)
+{
+    @if (productType.IsEditing)
+    {
+
+    }
+    else
+    {
+        <div class="row">
+            <div class="col">
+                @productType.Name
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" @onclick="@(() => EditProductType(productType))">
+                    <i class="oi oi-pencil"></i>
+                </button>
+            </div>
+        </div>
+    }
+}
+
+@code {
+    ProductType editiongProductType = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ProductTypeService.GetProductTypes();
+    }
+
+    private void EditProductType(ProductType productType)
+    {
+        productType.IsEditing = true;
+        editiongProductType = productType;
+    }
+
+    private void CreateNeewProductTyp()
+    {
+
+    }
+
+    private async Task CreateNewProductType()
+    {
+
+    }
+}
