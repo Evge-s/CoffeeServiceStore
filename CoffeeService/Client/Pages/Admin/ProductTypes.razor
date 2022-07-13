@@ -1,5 +1,7 @@
 ﻿@page "/admin/product-types"
 @inject IProductTypeService ProductTypeService
+@attribute [Authorize(Roles = "Admin")]
+@implements IDisposable
 
 <h3>ProductTypes</h3>
 
@@ -7,7 +9,18 @@
 {
     @if (productType.IsEditing)
     {
-
+        <EditForm Model="editiongProductType" OnSubmit="UpdateProductType">
+            <div class="row">
+                <div class="col">
+                    <InputText @bind-Value="editiongProductType.Name" class="form-control"></InputText>
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="oi oi-cloud-upload"></i>
+                    </button>
+                </div>
+            </div>
+        </EditForm>
     }
     else
     {
@@ -24,12 +37,22 @@
     }
 }
 
+<button class="btn btn-primary" @onclick="CreateNewProductType">
+    <i class="oi oi-plus"></i> Add new product type
+</button>
+
 @code {
     ProductType editiongProductType = null;
 
     protected override async Task OnInitializedAsync()
     {
         await ProductTypeService.GetProductTypes();
+        ProductTypeService.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        ProductTypeService.OnChange -= StateHasChanged;
     }
 
     private void EditProductType(ProductType productType)
@@ -38,13 +61,17 @@
         editiongProductType = productType;
     }
 
-    private void CreateNeewProductTyp()
+    private void CreateNewProductType()
     {
-
+        editiongProductType = ProductTypeService.CreteNewProductType();
     }
 
-    private async Task CreateNewProductType()
+    private async Task UpdateProductType()
     {
-
+        if (editiongProductType.IsNew)
+            await ProductTypeService.AddProductType(editiongProductType);
+        else
+            await ProductTypeService.UpdateProductType(editiongProductType);
+        editiongProductType = new ProductType();
     }
 }
