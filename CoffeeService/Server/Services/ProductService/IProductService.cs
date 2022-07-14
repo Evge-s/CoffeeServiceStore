@@ -8,5 +8,6 @@
         Task<ServiceResponse<ProductSearchResultResponse>> SearchProducts(string serachText, int page);
         Task<ServiceResponse<List<string>>> GetProductSearchSuggestions(string serachText);
         Task<ServiceResponse<List<Product>>> GetFeaturedProducts();
+        Task<ServiceResponse<List<Product>>> GetAdminProducts();
     }
 }
