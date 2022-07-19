@@ -1,5 +1,6 @@
 ﻿@page "/admin/products"
 @inject IProductService ProductService
+@inject NavigationManager NavigationManager
 @attribute [Authorize(Roles = "Admin")]
 
 <h3>Products</h3>
@@ -10,8 +11,11 @@
 }
 else
 {
+    <button class="btn btn-primary float-end" @onclick="CreateProduct">
+        <i class="oi oi-plus"> Add new product</i>
+    </button>
     <table class="table">
-        <thread>
+        <thead>
             <tr>
                 <th></th>
                 <th>Product</th>
@@ -20,7 +24,7 @@ else
                 <th>Visible</th>
                 <th></th>
             </tr>
-        </thread>
+        </thead>
         <tbody>
             <Virtualize Items="ProductService.AdminProducts" Context="product">
                 <tr>
@@ -60,6 +64,11 @@ else
 
     void EditProduct(int productId)
     {
+        NavigationManager.NavigateTo($"admin/product/{productId}");
+    }
 
+    void CreateProduct()
+    {
+        NavigationManager.NavigateTo("admin/product");
     }
 }
