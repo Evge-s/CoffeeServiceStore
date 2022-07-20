@@ -1,7 +1,7 @@
 ﻿@page "/admin/products"
+@attribute [Authorize(Roles = "Admin")]
 @inject IProductService ProductService
 @inject NavigationManager NavigationManager
-@attribute [Authorize(Roles = "Admin")]
 
 <h3>Products</h3>
 

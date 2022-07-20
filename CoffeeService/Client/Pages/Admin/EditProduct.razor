@@ -1,5 +1,6 @@
 ﻿@page "/admin/product"
 @page "/admin/product/{id:int}"
+@attribute [Authorize(Roles = "Admin")]
 @inject IProductService ProductService
 @inject IProductTypeService ProductTypeService
 @inject ICategoryService CategoryService
