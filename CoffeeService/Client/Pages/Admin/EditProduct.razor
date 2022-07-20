@@ -66,13 +66,13 @@ else
             <InputCheckbox @bind-Value="variant.IsVisible" style="transform:scale(1.5,1.5);" disabled="@variant.IsDeleted"></InputCheckbox>
         </div>
         <div class="col">
-            <button class="btn btn-primary" disabled="@variant.IsDeleted" @onclick="@(() => RemoveVariant(variant.ProductTypeId))">
+            <button type="button" class="btn btn-primary" disabled="@variant.IsDeleted" @onclick="@(() => RemoveVariant(variant.ProductTypeId))">
                 <i class="oi oi-trash"></i>
             </button>
         </div>
     </div>
         }
-        <button class="btn btn-primary" @onclick="AddVariant">
+        <button type="button" class="btn btn-primary" @onclick="AddVariant">
             <i class="oi oi-plus"></i> Add Variant
         </button>
         <hr />
