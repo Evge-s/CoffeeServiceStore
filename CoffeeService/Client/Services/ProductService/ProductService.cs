@@ -90,7 +90,7 @@
 
         public async Task DeleteProduct(Product product)
         {
-            await _http.DeleteAsync($"api/product/{product.Id}");
+            var result = await _http.DeleteAsync($"api/product/{product.Id}");
         }
     }
 }

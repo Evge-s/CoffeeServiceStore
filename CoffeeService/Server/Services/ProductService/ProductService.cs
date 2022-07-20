@@ -25,7 +25,7 @@
         public async Task<ServiceResponse<bool>> DeleteProduct(int productId)
         {
             var dbProduct = await _context.Products.FindAsync(productId);
-            if (dbProduct != null)
+            if (dbProduct == null)
             {
                 return new ServiceResponse<bool>
                 {
