@@ -63,7 +63,7 @@ else
             <InputNumber @bind-Value="variant.OriginalPrice" class="form-control" disabled="@variant.IsDeleted"></InputNumber>
         </div>
         <div class="col col-visible">
-            <InputCheckbox @bind-Value="variant.IsVisible" style="transform:scale(1.5,1.5);" class="form-control" disabled="@variant.IsDeleted"></InputCheckbox>
+            <InputCheckbox @bind-Value="variant.IsVisible" style="transform:scale(1.5,1.5);" disabled="@variant.IsDeleted"></InputCheckbox>
         </div>
         <div class="col">
             <button class="btn btn-primary" disabled="@variant.IsDeleted" @onclick="@(() => RemoveVariant(variant.ProductTypeId))">
