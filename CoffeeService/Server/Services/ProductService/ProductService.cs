@@ -216,9 +216,10 @@
             dbProduct.Featured = product.Featured;
 
             var productImages = dbProduct.Images;
-            _context.Images.RemoveRange(productImages);
+            if (productImages != null && productImages.Count > 0)
+                _context.Images.RemoveRange(productImages);
 
-            dbProduct.Images = productImages;
+            dbProduct.Images = product.Images;
 
             foreach (var variant in product.Variants)
             {
