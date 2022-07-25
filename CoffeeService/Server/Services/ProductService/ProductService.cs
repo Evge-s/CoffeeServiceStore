@@ -195,7 +195,10 @@
 
         public async Task<ServiceResponse<Product>> UpdateProduct(Product product)
         {
-            var dbProduct = await _context.Products.FindAsync(product.Id);
+            var dbProduct = await _context.Products
+                 .Include(p => p.Images)
+                 .FirstOrDefaultAsync(p => p.Id == product.Id);
+
             if (dbProduct == null)
             {
                 return new ServiceResponse<Product>
@@ -211,6 +214,11 @@
             dbProduct.CategoryId = product.CategoryId;
             dbProduct.IsVisible = product.IsVisible;
             dbProduct.Featured = product.Featured;
+
+            var productImages = dbProduct.Images;
+            _context.Images.RemoveRange(productImages);
+
+            dbProduct.Images = productImages;
 
             foreach (var variant in product.Variants)
             {
