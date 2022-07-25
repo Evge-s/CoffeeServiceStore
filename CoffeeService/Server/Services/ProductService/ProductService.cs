@@ -49,6 +49,7 @@
                     .Where(p => !p.IsDeleted)
                     .Include(p => p.Variants.Where(p => !p.IsDeleted))
                     .ThenInclude(v => v.ProductType)
+                    .Include(p => p.Images)
                     .ToListAsync()
             };
 
@@ -62,6 +63,7 @@
                 Data = await _context.Products
                     .Where(p => p.Featured && p.IsVisible && !p.IsDeleted)
                     .Include(p => p.Variants.Where(p => p.IsVisible && !p.IsDeleted))
+                    .Include(p => p.Images)
                     .ToListAsync()
             };
 
@@ -78,6 +80,7 @@
                 product = await _context.Products
                     .Include(p => p.Variants.Where(v => !v.IsDeleted))
                     .ThenInclude(v => v.ProductType)
+                    .Include(p => p.Images)
                     .FirstOrDefaultAsync(p => p.Id == productId && !p.IsDeleted);
             }
             else
@@ -108,6 +111,7 @@
                 Data = await _context.Products
                 .Where(p => p.IsVisible && !p.IsDeleted)
                 .Include(p => p.Variants.Where(p => p.IsVisible && !p.IsDeleted))
+                .Include(p => p.Images)
                 .ToListAsync()
             };
             return response;
@@ -121,6 +125,7 @@
                 .Where(p => p.Category.Url.ToLower().Equals(categoryUrl.ToLower()) &&
                     p.IsVisible && !p.IsDeleted)
                 .Include(p => p.Variants.Where(p => p.IsVisible && !p.IsDeleted))
+                .Include(p => p.Images)
                 .ToListAsync()
             };
 
@@ -170,6 +175,7 @@
                                     p.Description.ToLower().Contains(serachText.ToLower()) &&
                                     p.IsVisible && !p.IsDeleted)
                                 .Include(p => p.Variants)
+                                .Include(p => p.Images)
                                 .Skip((page - 1) * (int)pageResults)
                                 .Take((int)pageResults)
                                 .ToListAsync();
